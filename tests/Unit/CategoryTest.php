@@ -6,12 +6,13 @@ use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CategoryTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function it_creates_a_category_with_uuid()
     {
         $category = Category::create([
@@ -24,7 +25,7 @@ class CategoryTest extends TestCase
         $this->assertTrue(Str::isUuid($category->id));
     }
 
-    /** @test */
+    #[Test]
     public function it_soft_deletes_a_category()
     {
         $category = Category::create([
@@ -38,7 +39,7 @@ class CategoryTest extends TestCase
         $this->assertSoftDeleted('categories', ['id' => $category->id]);
     }
 
-    /** @test */
+    #[Test]
     public function it_restores_a_soft_deleted_category()
     {
         $category = Category::create([
@@ -53,7 +54,7 @@ class CategoryTest extends TestCase
         $this->assertDatabaseHas('categories', ['id' => $category->id, 'deleted_at' => null]);
     }
 
-    /** @test */
+    #[Test]
     public function it_updates_a_category()
     {
         $category = Category::create([
