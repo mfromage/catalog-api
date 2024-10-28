@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added `Category` resource endpoints
+- Added Upload image endpoint
+- Added test and deploy github workflows
 
 ### Changed
 

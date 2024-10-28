@@ -5,7 +5,9 @@ on:
     branches:
       - main
       - develop
-
+  pull_request:
+    branches:
+      - '*'
 jobs:
   test:
     uses: ./.github/workflows/test.yml
@@ -44,6 +46,15 @@ jobs:
         sed -i 's|# DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|' .env
         sed -i 's|# DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|' .env
         sed -i 's|# DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|' .env
+
+    - name: Insert DO variables into .env
+      run: |
+        echo "DO_SPACES_KEY=${{ secrets.DO_SPACES_KEY }}" >> .env
+        echo "DO_SPACES_SECRET=${{ secrets.DO_SPACES_SECRET }}" >> .env
+        echo "DO_SPACES_ENDPOINT=${{ secrets.DO_SPACES_ENDPOINT }}" >> .env
+        echo "DO_SPACES_REGION=${{ secrets.DO_SPACES_REGION }}" >> .env
+        echo "DO_SPACES_BUCKET=${{ secrets.DO_SPACES_BUCKET }}" >> .env
+        echo "DO_SPACES_IMAGE_PATH=${{ secrets.DO_SPACES_IMAGE_PATH }}" >> .env
 
     - name: Synchronize Files To Server
       uses: easingthemes/ssh-deploy@v2.1.5
