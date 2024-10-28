@@ -39,7 +39,7 @@ class ImageControllerTest extends TestCase
         $response->assertStatus(201);
 
         // Assert the image was stored
-        $filePath = env('DO_SPACES_IMAGE_PATH') . '/products/' . $file->hashName();
+        $filePath = env('DO_SPACES_IMAGE_PATH') . 'products/' . $file->hashName();
         Storage::disk('spaces')->assertExists($filePath);
 
         // Assert the image record was created in the database

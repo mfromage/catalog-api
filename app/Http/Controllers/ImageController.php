@@ -18,7 +18,7 @@ class ImageController extends Controller
 
         $file = $request->file('image');
         $altName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $spacesPath = env('DO_SPACES_IMAGE_PATH') . '/products';
+        $spacesPath = env('DO_SPACES_IMAGE_PATH') . 'products';
 
         try {
             $path = $file->store($spacesPath, 'spaces');
