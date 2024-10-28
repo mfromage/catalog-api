@@ -1,0 +1,64 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    environment:
+      name: development
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.3
+
+    - name: Install Composer dependencies
+      run: composer install --optimize-autoloader --no-dev --no-progress --no-interaction --prefer-dist
+
+    - name: Copy .env.example to .env
+      run: cp .env.example .env
+
+    - name: Replace .env values
+      run: |
+        sed -i 's|APP_NAME=.*|APP_NAME=${{ env.APP_NAME }}|' .env
+        sed -i 's|APP_ENV=.*|APP_ENV=${{ env.APP_ENV}}|' .env
+        sed -i 's|APP_KEY=.*|APP_KEY=${{ secrets.APP_KEY }}|' .env
+        sed -i 's|APP_DEBUG=.*|APP_DEBUG=${{ env.APP_DEBUG }}|' .env
+        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_CONNECTION }}|' .env
+        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_HOST }}|' .env
+        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_PORT }}|' .env
+        sed -i 's|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|' .env
+        sed -i 's|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|' .env
+        sed -i 's|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|' .env
+
+    - name: Synchronize Files To Server
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SOURCE: "."
+        REMOTE_HOST: ${{ secrets.SSH_HOST }}
+        REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+        TARGET: ${{ secrets.DEPLOY_PATH}}
+
+    - name: Run Remote/Artisan Commands
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+            php artisan migrate --force
+            php artisan optimize
