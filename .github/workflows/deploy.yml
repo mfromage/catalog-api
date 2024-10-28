@@ -11,8 +11,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  test:
+    uses: ./.github/workflows/test.yml
 
+  deploy:
+    needs: test
+    
     runs-on: ubuntu-latest
 
     environment:
@@ -48,6 +52,8 @@ jobs:
 
     - name: Synchronize Files To Server
       uses: easingthemes/ssh-deploy@v2.1.5
+      with:
+        args: --exclude-from=.gitignore
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         SOURCE: "."
