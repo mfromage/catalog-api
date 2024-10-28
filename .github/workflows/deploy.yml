@@ -5,10 +5,6 @@ on:
     branches:
       - main
       - develop
-  pull_request:
-    branches:
-      - '*'
-  workflow_dispatch:
 
 jobs:
   test:
@@ -38,16 +34,16 @@ jobs:
 
     - name: Replace .env values
       run: |
-        sed -i 's|APP_NAME=.*|APP_NAME=${{ env.APP_NAME }}|' .env
-        sed -i 's|APP_ENV=.*|APP_ENV=${{ env.APP_ENV}}|' .env
+        sed -i 's|APP_NAME=.*|APP_NAME=${{ vars.APP_NAME }}|' .env
+        sed -i 's|APP_ENV=.*|APP_ENV=${{ vars.APP_ENV}}|' .env
         sed -i 's|APP_KEY=.*|APP_KEY=${{ secrets.APP_KEY }}|' .env
-        sed -i 's|APP_DEBUG=.*|APP_DEBUG=${{ env.APP_DEBUG }}|' .env
-        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_CONNECTION }}|' .env
-        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_HOST }}|' .env
-        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ secrets.DB_PORT }}|' .env
-        sed -i 's|DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|' .env
-        sed -i 's|DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|' .env
-        sed -i 's|DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|' .env
+        sed -i 's|APP_DEBUG=.*|APP_DEBUG=${{ vars.APP_DEBUG }}|' .env
+        sed -i 's|DB_CONNECTION=.*|DB_CONNECTION=${{ vars.DB_CONNECTION }}|' .env
+        sed -i 's|# DB_HOST=.*|DB_HOST=${{ secrets.DB_HOST }}|' .env
+        sed -i 's|# DB_PORT=.*|DB_PORT=${{ secrets.DB_PORT }}|' .env
+        sed -i 's|# DB_DATABASE=.*|DB_DATABASE=${{ secrets.DB_DATABASE }}|' .env
+        sed -i 's|# DB_USERNAME=.*|DB_USERNAME=${{ secrets.DB_USERNAME }}|' .env
+        sed -i 's|# DB_PASSWORD=.*|DB_PASSWORD=${{ secrets.DB_PASSWORD }}|' .env
 
     - name: Synchronize Files To Server
       uses: easingthemes/ssh-deploy@v2.1.5
