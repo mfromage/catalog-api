@@ -23,7 +23,7 @@ class CategoryFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'sortorder' => $this->faker->numberBetween(1, 100),
+            'sort_order' => $this->faker->numberBetween(1, 100),
             'image_path' => $this->faker->imageUrl(),
         ];
     }

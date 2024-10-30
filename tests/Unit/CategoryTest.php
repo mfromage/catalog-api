@@ -18,7 +18,7 @@ class CategoryTest extends TestCase
         $category = Category::create([
             'name' => 'Electronics',
             'image_path' => 'images/electronics.jpg',
-            'sortorder' => 1,
+            'sort_order' => 1,
         ]);
 
         $this->assertNotNull($category->id);
@@ -31,7 +31,7 @@ class CategoryTest extends TestCase
         $category = Category::create([
             'name' => 'Books',
             'image_path' => 'images/books.jpg',
-            'sortorder' => 2,
+            'sort_order' => 2,
         ]);
 
         $category->delete();
@@ -45,7 +45,7 @@ class CategoryTest extends TestCase
         $category = Category::create([
             'name' => 'Toys',
             'image_path' => 'images/toys.jpg',
-            'sortorder' => 3,
+            'sort_order' => 3,
         ]);
 
         $category->delete();
@@ -60,20 +60,20 @@ class CategoryTest extends TestCase
         $category = Category::create([
             'name' => 'Clothing',
             'image_path' => 'images/clothing.jpg',
-            'sortorder' => 4,
+            'sort_order' => 4,
         ]);
 
         $category->update([
             'name' => 'Apparel',
             'image_path' => 'images/apparel.jpg',
-            'sortorder' => 5,
+            'sort_order' => 5,
         ]);
 
         $this->assertDatabaseHas('categories', [
             'id' => $category->id,
             'name' => 'Apparel',
             'image_path' => 'images/apparel.jpg',
-            'sortorder' => 5,
+            'sort_order' => 5,
         ]);
     }
 }

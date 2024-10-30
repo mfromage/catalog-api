@@ -34,7 +34,7 @@ class CategoryControllerTest extends TestCase
         $data = [
             'name' => 'New Category',
             'image_path' => 'image-name-1.jpg',
-            'sortorder' => 1
+            'sort_order' => 1
         ];
 
         $response = $this->postJson('/api/categories', $data);
@@ -55,7 +55,7 @@ class CategoryControllerTest extends TestCase
                  ->assertJsonFragment([
                      'id' => $category->id,
                      'name' => $category->name,
-                     'sortorder' => $category->sortorder,
+                     'sort_order' => $category->sort_order,
                      'image_path' => $category->image_path,
                  ]);
     }
@@ -66,7 +66,7 @@ class CategoryControllerTest extends TestCase
 
         $data = [
             'name' => 'Updated Category',
-            'sortorder' => 5,
+            'sort_order' => 5,
         ];
 
         $response = $this->putJson("/api/categories/{$category->id}", $data);

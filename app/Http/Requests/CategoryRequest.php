@@ -18,7 +18,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'image_path' => 'nullable|string|max:255',
-            'sortorder' => 'nullable|integer|min:1',
+            'sort_order' => 'nullable|integer|min:1',
         ];
     }
 
