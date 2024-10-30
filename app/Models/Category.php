@@ -14,7 +14,7 @@ class Category extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['name', 'image_path', 'sortorder'];
+    protected $fillable = ['name', 'image_path', 'sort_order'];
 
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
 
@@ -23,33 +23,33 @@ class Category extends Model
         parent::boot();
         static::creating(function ($model) {
             $model->id = (string) Str::uuid();
-            $model->sortorder = self::whereNull('deleted_at')->max('sortorder') + 1;
+            $model->sort_order = self::whereNull('deleted_at')->max('sort_order') + 1;
         });
 
         static::deleting(function ($model) {
-            self::where('sortorder', '>', $model->sortorder)
+            self::where('sort_order', '>', $model->sort_order)
                 ->whereNull('deleted_at')
-                ->decrement('sortorder');
+                ->decrement('sort_order');
         });
     }
 
     public function updateSortOrder($newSortOrder)
     {
-        if ($this->sortorder == $newSortOrder) {
+        if ($this->sort_order == $newSortOrder) {
             return;
         }
 
-        if ($this->sortorder < $newSortOrder) {
-            self::whereBetween('sortorder', [$this->sortorder + 1, $newSortOrder])
+        if ($this->sort_order < $newSortOrder) {
+            self::whereBetween('sort_order', [$this->sort_order + 1, $newSortOrder])
                 ->whereNull('deleted_at')
-                ->decrement('sortorder');
+                ->decrement('sort_order');
         } else {
-            self::whereBetween('sortorder', [$newSortOrder, $this->sortorder - 1])
+            self::whereBetween('sort_order', [$newSortOrder, $this->sort_order - 1])
                 ->whereNull('deleted_at')
-                ->increment('sortorder');
+                ->increment('sort_order');
         }
 
-        $this->sortorder = $newSortOrder;
+        $this->sort_order = $newSortOrder;
         $this->save();
     }
 }

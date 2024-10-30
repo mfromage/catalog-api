@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index(): JsonResponse
     {
-        $categories = Category::orderBy('sortorder')->get();
+        $categories = Category::orderBy('sort_order')->get();
         return response()->json($categories);
     }
 
@@ -30,10 +30,10 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, $id): JsonResponse
     {
         $category = Category::findOrFail($id);
-        if ($request->has('sortorder')) {
-            $category->updateSortOrder($request->input('sortorder'));
+        if ($request->has('sort_order')) {
+            $category->updateSortOrder($request->input('sort_order'));
         }
-        $category->update($request->except('sortorder'));
+        $category->update($request->except('sort_order'));
         return response()->json($category);
     }
 
