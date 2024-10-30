@@ -16,7 +16,7 @@ class Image extends Model
 
     protected $fillable = ['alt', 'url'];
 
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['created_at', 'updated_at', 'deleted_at', 'pivot'];
 
     protected static function boot()
     {
@@ -24,5 +24,13 @@ class Image extends Model
         static::creating(function ($model) {
             $model->id = (string) Str::uuid();
         });
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'image_product')
+                    ->using(ProductImage::class)
+                    ->withPivot('sort_order')
+                    ->orderBy('pivot_sort_order');
     }
 }
