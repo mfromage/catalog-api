@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Added `Category` resource endpoints
-- Added Upload image endpoint
-- Added test and deploy github workflows
-- Added `Product` resource endpoint
+
+-   Added `Category` resource endpoints
+-   Added Upload image endpoint
+-   Added test and deploy github workflows
+-   Added `Product` resource endpoint
+-   Fix Auth login and register response
 
 ### Changed
 
@@ -26,4 +28,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2023-10-01
 
 ### Added
-- Initial release of the project.
+
+-   Initial release of the project.
